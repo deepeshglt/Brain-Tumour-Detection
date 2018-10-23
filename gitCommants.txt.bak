@@ -1,5 +1,5 @@
 git clone https://github.com/deepeshglt/Brain-Tumour-Detection.git .
 git pull origin master
 git add .
-git commit -m "modified"
+git commit -m "added final_main.m"
 git push origin master
