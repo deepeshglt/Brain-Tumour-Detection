@@ -42,8 +42,14 @@ for m = 1 : size(i_new,1)
 end
 figure;imshow(i_mask_final,[]);
 %-----------feature extraction------------%
+%-----------feature extraction------------%
 m=3;
 n=3;
 image_block = im2col(i_mask_final,[m n],'sliding');
-tumor_mask_block=im2col(tumor_mask_1,[m,n],'sliding');
+for i=1:size(image_block,2)
+     GLCM2 = graycomatrix(image_block(:,1),'Offset',[2 0;0 2]);
+     stats = GLCM_features(GLCM2,0);
+   
+end
+tumor_mask_block=im2col(i_mask,[m,n],'sliding');
 
