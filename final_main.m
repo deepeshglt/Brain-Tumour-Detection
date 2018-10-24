@@ -60,11 +60,16 @@ for i=1:size(image_block,2)
     feature_all=[contrast energy correlation homogenicity image_block(:,i).'];
     feature=[feature;feature_all;];
 end
+indices = find(isnan(feature) == 1);
+[I,J] = ind2sub(size(feature),indices);
+feature(I,J)=0;
 tumor_mask_block=im2col(i_mask,[m,n],'sliding');
 %----------set target--------------------%
 center_pixel=ceil(m*n/2);
 for i=1:size(tumor_mask_block,2)
-     target_pixel(i,:)=tumor_mask_block(center_pixel,i);
+     target_pixel(i,:)=double(tumor_mask_block(center_pixel,i));
 end
+save feature;
+save target_pixel;
 
 
