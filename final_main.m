@@ -4,8 +4,7 @@ close all;
 addpath('functions')
 cluster_n = 3;
 i = imread('..\images\imgs\1.jpg');
-tumor_mask= imread('..\images\mask\1.jpg');
-tumor_mask_1 = imadjust(tumor_mask);
+i_mask = imread('..\images\mask\1.jpg');
 figure;imshow(i);title('Input Image');
 if(size(i)==3)
     i_gray = rgb2gray(i);
@@ -13,9 +12,10 @@ if(size(i)==3)
 else
     i_gray = i;
 end
-i_crop = PreProcess(i);
+[i_crop,i_mask] = PreProcess(i,i_mask);
 ia=i_crop;
 figure;imshow(i_crop);title('Preprocessed Image');
+figure;imshow(i_mask);title('Preprocessed Image');
 data = i_crop(:);
 kmeans_data = kmeans_clus_n(data,cluster_n,i_crop);
 figure;imshow(kmeans_data,[]);title('Level Image');
