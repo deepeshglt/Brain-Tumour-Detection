@@ -5,6 +5,8 @@ addpath('functions')
 cluster_n = 3;
 i = imread('..\images\imgs\1.jpg');
 i_mask = imread('..\images\mask\1.jpg');
+i=imresize(i,[128,128]);
+i_mask=imresize(i_mask,[128,128]);
 figure;imshow(i);title('Input Image');
 if(size(i)==3)
     i_gray = rgb2gray(i);
@@ -42,14 +44,27 @@ for m = 1 : size(i_new,1)
 end
 figure;imshow(i_mask_final,[]);
 %-----------feature extraction------------%
-%-----------feature extraction------------%
 m=3;
 n=3;
 image_block = im2col(i_mask_final,[m n],'sliding');
+feature=[];
 for i=1:size(image_block,2)
-     GLCM2 = graycomatrix(image_block(:,1),'Offset',[2 0;0 2]);
-     stats = GLCM_features(GLCM2,0);
-   
+    i
+    block=reshape(image_block(:,i),[3 3]);
+    GLCM2 = graycomatrix(block,'Offset',[2 0;0 2]);
+    stats=graycoprops(GLCM2);
+    contrast=stats.Contrast;
+    energy=stats.Energy;
+    correlation=stats.Correlation;
+    homogenicity=stats.Homogeneity;
+    feature_all=[contrast energy correlation homogenicity image_block(:,i).'];
+    feature=[feature;feature_all;];
 end
 tumor_mask_block=im2col(i_mask,[m,n],'sliding');
+%----------set target--------------------%
+center_pixel=ceil(m*n/2);
+for i=1:size(tumor_mask_block,2)
+     target_pixel(i,:)=tumor_mask_block(center_pixel,i);
+end
+
 
