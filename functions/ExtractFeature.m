@@ -52,6 +52,9 @@ if(length(varargin)==1)
     [I,J] = ind2sub(size(feature),indices);
     feature(I,J) = 0;
     varargout{1} = feature;
+    im_size=size(i_new);
+    varargout{2} = im_size;
+    varargout{3} = i_crop;
 elseif(length(varargin)==2)
     i = varargin{1};
     i_mask = varargin{2};
