@@ -5,16 +5,16 @@ load net
 addpath('functions')
 cluster_n = 3;
 i = imread('..\images\imgs\1.jpg');
-[feature,im_size,i_mask_final] = ExtractFeature(i);
+[feature,i_crop] = ExtractFeature(i);
 x = feature';
 outputs = sim(net,x);
 m=3;
 n=3;
 mask_mat=zeros(m*n,size(outputs,2));
 center_pixel=ceil(m*n/2);
-    for i=1:size(mask_mat,2)
-            mask_mat(center_pixel,i)=outputs(i);
-    end
+for i=1:size(mask_mat,2)
+    mask_mat(center_pixel,i)=outputs(i);
+end
 mm=  im_size(1);
 nn=  im_size(2);
 Detected_mask = reshape(sum(mask_mat),mm-m+1,nn-n+1);
